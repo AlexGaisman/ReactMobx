@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Converters;
 using Tracker.Helpers;
 using Tracker.Interfaces;
 using Tracker.Models;
@@ -27,13 +28,20 @@ namespace Tracker
         {
             services.AddCors();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson(jsonOptions =>
+            {
+                jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
+            });
 
             services.AddDbContext<TrackerContext>(opt =>
                         opt.UseSqlServer(Configuration.GetConnectionString("Default")));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<JwtService>();
+
+           // services.AddControllers().AddNewtonsoftJson();
+            //services.AddControllersWithViews().AddNewtonsoftJson();
+            //services.AddRazorPages().AddNewtonsoftJson();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -59,6 +67,8 @@ namespace Tracker
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+
 
             app.UseRouting();
             app.UseCors(options => options

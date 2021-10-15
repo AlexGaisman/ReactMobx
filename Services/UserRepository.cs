@@ -24,6 +24,20 @@ namespace Tracker.Services
             return user;
         }
 
+        public User UpdateRole(int id, string role)
+        {
+            var user = _context.Users.FirstOrDefault(x => x.Id == id);
+
+            if (user == null)
+                return null;
+
+            user.Role = role;
+
+            _context.SaveChanges();
+
+            return user;
+        }
+
         public User GetByEmail(string email)
         {
             var user = _context.Users.FirstOrDefault(e => e.Email == email);

@@ -12,5 +12,6 @@ namespace Tracker.Interfaces
         User GetByEmail(string email);
 
         User GetById(int id);
+        User UpdateRole(int id, string role);
     }
 }

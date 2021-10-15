@@ -9,7 +9,7 @@ using Tracker.Models;
 namespace Tracker.Migrations
 {
     [DbContext(typeof(TrackerContext))]
-    [Migration("20211012031948_Initial")]
+    [Migration("20211015152959_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,7 +30,10 @@ namespace Tracker.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
