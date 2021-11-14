@@ -10,6 +10,8 @@ using Tracker.Helpers;
 using Tracker.Interfaces;
 using Tracker.Models;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Tracker.Controllers
 {
@@ -49,7 +51,7 @@ namespace Tracker.Controllers
                 return BadRequest(new { message= "There was a problem creating your account" });
             }
 
-            var jwt = _jwtService.Generate(user.Id);
+            var jwt = _jwtService.Generate(user.Id, email:"");
 
             TimeSpan t = DateTime.UtcNow.AddHours(1) - new DateTime(1970, 1, 1);
             int secondsSinceEpoch = (int)t.TotalSeconds;
@@ -72,7 +74,7 @@ namespace Tracker.Controllers
             if(!BCrypt.Net.BCrypt.Verify(userDto.Password, user.Password))
                 return BadRequest(new { message = "Invalid Credentials" });
 
-            var jwt = _jwtService.Generate(user.Id);
+            var jwt = _jwtService.Generate(user.Id, "");
 
             Response.Cookies.Append("jwt", jwt, new CookieOptions { HttpOnly = true });
 
@@ -118,6 +120,16 @@ namespace Tracker.Controllers
         [HttpPatch("/api/user-role")]
         public IActionResult UserRole([FromBody] UserDto userDto)
         {
+            int id = -1;
+
+            try
+            {
+                id = _jwtService.GetUserId(Request);
+            } catch (Exception ex)
+            {
+                return BadRequest(new { message = "failed to get user id" });
+            }
+
             var allowedRoles = new string[]{ "user", "admin" };
 
             if (!allowedRoles.Contains(userDto.Role))
@@ -125,7 +137,7 @@ namespace Tracker.Controllers
 
             try
             {
-                _userRepository.UpdateRole(userDto.Id, userDto.Role);
+                _userRepository.UpdateRole(id, userDto.Role);
                 return Ok(new { message = "User role updated. You must log in again for the changes to take effect" });
             }
             catch(Exception ex)
@@ -135,6 +147,8 @@ namespace Tracker.Controllers
 
         }
 
+
+        [Authorize]
         [HttpGet("/api/dashboard-data")]
         public IActionResult DashboardData()
         {

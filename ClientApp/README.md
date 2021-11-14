@@ -1,3 +1,15 @@
+﻿React with .NET Core and JWT Auth
+ 
+Authentication tutorial
+
+References:
+https://www.youtube.com/watch?v=FSUa8Vd-td0
+ http://reactsecurity.io/
+
+This code is started of the Authentication Course Example
+https://courses.reactsecurity.io/courses/react-security-fundamentals/302415-signup-and-login/864637-complete-the-user-signup-form
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>

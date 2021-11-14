@@ -11,6 +11,7 @@ using Tracker.Helpers;
 using Tracker.Interfaces;
 using Tracker.Models;
 using Tracker.Services;
+using Tracker.Middleware;
 
 namespace Tracker
 {
@@ -33,6 +34,7 @@ namespace Tracker
                 jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
 
+            services.AddTokenAuthentication(Configuration);
             services.AddDbContext<TrackerContext>(opt =>
                         opt.UseSqlServer(Configuration.GetConnectionString("Default")));
 
@@ -79,6 +81,9 @@ namespace Tracker
                                 .AllowAnyMethod()
                                 .AllowAnyHeader()
                                 .AllowCredentials());
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
