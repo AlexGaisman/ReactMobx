@@ -9,6 +9,12 @@ https://www.youtube.com/watch?v=FSUa8Vd-td0
 
  React Patterns LinkedIn turorial
  https://www.linkedin.com/learning/react-design-patterns/
- 
+    * Layout components
+    * Container components
+    * Controlled and Uncontrolled components
+    * HOC Higher Order components
+    * Custom Hooks Pattern
+    
+
  
 
