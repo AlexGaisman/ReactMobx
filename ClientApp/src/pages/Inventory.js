@@ -88,7 +88,7 @@ const Inventory = () => {
         'inventory',
         values
       );
-      setInventory([...inventory, data.inventoryItem]);
+      setInventory([...inventory, data]);
       resetForm();
       setSuccessMessage(data.message);
       setErrorMessage(null);
@@ -109,11 +109,11 @@ const Inventory = () => {
         const {
           data
         } = await fetchContext.authAxios.delete(
-          `inventory/${item._id}`
+          `inventory/${item.id}`
         );
         setInventory(
           inventory.filter(
-            item => item._id !== data.deletedItem._id
+            item => item.id !== data.id
           )
         );
       }
@@ -135,7 +135,7 @@ const Inventory = () => {
       </div>
       {inventory && inventory.length
         ? inventory.map(item => (
-            <InventoryItemContainer key={item._id}>
+            <InventoryItemContainer key={item.id}>
               <InventoryItem
                 item={item}
                 onDelete={onDelete}

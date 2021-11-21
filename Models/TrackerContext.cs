@@ -17,6 +17,8 @@ namespace Tracker.Models
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Inventory> Inventories { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
