@@ -13,14 +13,20 @@ import { AuthProvider, AuthContext } from './context/AuthContext';
 import { FetchProvider } from './context/FetchContext';
 import AppShell from './AppShell';
 
+
+
 import FourOFour from './pages/FourOFour';
 import Login from './pages/Login'
 import Home from './pages/Home';
+import PrintServices from './pages/PrintServices';
 import Dashboard from './pages/Dashboard';
 import Inventory from './pages/Inventory';
 import Account from './pages/Account';
 import Settings from './pages/Settings';
 import Users from './pages/Users';
+
+import * as stores from './stores';
+import { Provider, observer } from 'mobx-react';
 
 const LoadingFallback = () => (
     <AppShell>
@@ -38,6 +44,9 @@ const UnauthenticatedRoutes = () => (
         </Route>
         <Route exact path="/">
             <Home />
+        </Route>
+        <Route exact path="/PrintServices">
+            <PrintServices />
         </Route>
         <Route path="*">
             <FourOFour />
@@ -81,26 +90,28 @@ const AuthenticatedRoute = ({ children, ...rest }) => {
 const AppRoutes = () => {
     return (
         <>
-            <Suspense fallback={<LoadingFallback />}>
-                <Switch>
-                    <AuthenticatedRoute path="/dashboard">
-                        <Dashboard />
-                    </AuthenticatedRoute>
-                    <AdminRoute path="/inventory">
-                        <Inventory />
-                    </AdminRoute>
-                    <AuthenticatedRoute path="/account">
-                        <Account />
-                    </AuthenticatedRoute>
-                    <AuthenticatedRoute path="/settings">
-                        <Settings />
-                    </AuthenticatedRoute>
-                    <AuthenticatedRoute path="/users">
-                        <Users />
-                    </AuthenticatedRoute>
-                    <UnauthenticatedRoutes />
-                </Switch>
-            </Suspense>
+            <Provider {...stores }>
+                <Suspense fallback={<LoadingFallback />}>
+                    <Switch>
+                        <AuthenticatedRoute path="/dashboard">
+                            <Dashboard />
+                        </AuthenticatedRoute>
+                        <AdminRoute path="/inventory">
+                            <Inventory />
+                        </AdminRoute>
+                        <AuthenticatedRoute path="/account">
+                            <Account />
+                        </AuthenticatedRoute>
+                        <AuthenticatedRoute path="/settings">
+                            <Settings />
+                        </AuthenticatedRoute>
+                        <AuthenticatedRoute path="/users">
+                            <Users />
+                        </AuthenticatedRoute>
+                        <UnauthenticatedRoutes />
+                    </Switch>
+                </Suspense>
+            </Provider>
         </>
     );
 };

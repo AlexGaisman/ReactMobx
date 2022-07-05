@@ -1,0 +1,16 @@
+﻿.boxItem {
+    width: 200px;
+    height: 300px;
+    border: 1px solid gray;
+    padding: 10px;
+    background-color: #f7fafc;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.imageItem {
+    margin-top:10px;
+    height:230px;
+    margin-left:auto;
+    margin-right:auto;
+}
